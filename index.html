@@ -57,6 +57,12 @@ pre{white-space:pre-wrap;background:#0d1116;border:1px solid var(--line);border-
 .plan a{display:block;background:var(--acc);color:#0c1014;text-decoration:none;font-weight:700;border-radius:8px;padding:12px;font-size:.95rem}
 .plan.gray a{background:transparent;border:1px solid var(--line);color:var(--fg)}
 footer{margin-top:40px;text-align:center;font-size:.82rem;color:var(--mut)}
+/* ——— étoiles cliquables (avis clients) ——— */
+.stars-in{display:flex;gap:4px;margin:8px 0 4px}
+.stars-in .star{background:transparent;border:none;cursor:pointer;font-size:1.7rem;line-height:1;color:#3a4654;padding:2px 4px;transition:color .15s,transform .1s;margin:0}
+.stars-in .star:hover{transform:scale(1.15)}
+.stars-in .star.on{color:#ffb400}
+.stars-in .star:focus{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
 /* ——— schémas SVG authorés ——— */
 .fig{border:1px solid var(--line);background:#0d1116;border-radius:14px;padding:8px;margin:18px 0 4px}
 .fig svg{width:100%;height:auto;display:block}
@@ -273,13 +279,14 @@ FR,120,corrugated</textarea>
   <form onsubmit="return sendReview(event)">
     <div style="margin:8px 0">
       <label for="rscore" style="color:var(--mut);font-size:.85rem">Note :</label>
-      <select id="rscore" style="margin-left:6px;width:auto">
-        <option value="5">★★★★★ 5</option>
-        <option value="4">★★★★ 4</option>
-        <option value="3">★★★ 3</option>
-        <option value="2">★★ 2</option>
-        <option value="1">★ 1</option>
-      </select>
+      <div class="stars-in" id="r_score_stars" role="radiogroup" aria-label="Note" style="display:inline-flex;margin-left:6px;vertical-align:middle">
+        <button type="button" class="star" data-v="1" aria-label="1 étoile">☆</button>
+        <button type="button" class="star" data-v="2" aria-label="2 étoiles">☆</button>
+        <button type="button" class="star" data-v="3" aria-label="3 étoiles">☆</button>
+        <button type="button" class="star" data-v="4" aria-label="4 étoiles">☆</button>
+        <button type="button" class="star" data-v="5" aria-label="5 étoiles">☆</button>
+      </div>
+      <input type="hidden" id="rscore" value="5">
     </div>
     <input type="email" id="remail" placeholder="ton@email.com (pour vérifier que tu es client)" required>
     <textarea id="rtext" rows="3" placeholder="Ton expérience…" required></textarea>
@@ -471,6 +478,34 @@ function signup(ev){
   ev.preventDefault();
   return false;
 }
+/* —————— étoiles cliquables : note des avis —————— */
+(function(){
+  var wrap = document.getElementById('r_score_stars');
+  if (!wrap) return;
+  var input = document.getElementById('rscore');
+  var stars = [].slice.call(wrap.querySelectorAll('.star'));
+  function paint(v){
+    stars.forEach(function(s){
+      var n = parseInt(s.getAttribute('data-v'),10);
+      s.textContent = n <= v ? '★' : '☆';
+      s.classList.toggle('on', n <= v);
+    });
+  }
+  stars.forEach(function(s){
+    s.addEventListener('click', function(){
+      input.value = s.getAttribute('data-v');
+      paint(parseInt(s.getAttribute('data-v'),10));
+    });
+    s.addEventListener('mouseenter', function(){
+      paint(parseInt(s.getAttribute('data-v'),10));
+      wrap.setAttribute('data-hover','1');
+    });
+  });
+  wrap.addEventListener('mouseleave', function(){
+    if (wrap.getAttribute('data-hover') === '1'){ paint(parseInt(input.value,10)||5); wrap.setAttribute('data-hover','0'); }
+  });
+  paint(parseInt(input.value,10)||5);
+})();
 /* —————— effets de scroll (progressifs : rien ne disparaît sans JS) —————— */
 (function(){
   var els = [].slice.call(document.querySelectorAll('.rv'));
