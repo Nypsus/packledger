@@ -183,6 +183,31 @@ FR,120,corrugated</textarea>
     <div class="q"><b>Mes données sont-elles envoyées quelque part ?</b><p>Non. La démo calcule tout dans ton navigateur. Quand tu passes au plan payant, seules tes adresses e-mail et tes préférences de pays sont conservées pour t'envoyer les rappels.</p></div>
   </div>
 
+  <h2 id="avis">Avis clients</h2>
+  <p class="sub">Des avis de vendeurs réels, publiés après vérification. Chaque retour négatif est répondu publiquement — c'est comme ça qu'on s'améliore.</p>
+  <div id="reviews" style="margin:14px 0">
+    <p class="hint">Les premiers avis seront publiés ici dès les premiers inscrits au plan Conforme.</p>
+  </div>
+  <div class="rev-form">
+    <b>Tu utilises PackLedger ? Donne ton avis</b>
+    <form onsubmit="return sendReview(event)">
+      <div style="margin:8px 0">
+        <label for="rscore" style="color:var(--mut);font-size:.85rem">Note :</label>
+        <select id="rscore" style="margin-left:6px">
+          <option value="5">★★★★★ 5</option>
+          <option value="4">★★★★ 4</option>
+          <option value="3">★★★ 3</option>
+          <option value="2">★★ 2</option>
+          <option value="1">★ 1</option>
+        </select>
+      </div>
+      <input type="email" id="remail" placeholder="ton@email.com (pour vérifier que tu es client)" required>
+      <textarea id="rtext" rows="3" placeholder="Ton expérience…" required style="width:100%;margin-top:8px"></textarea>
+      <button type="submit">Envoyer mon avis</button>
+    </form>
+    <p class="hint" id="revok" style="margin-top:10px"></p>
+  </div>
+
   <div class="signup" id="inscription">
     <h3>Commence maintenant</h3>
     <p>La démo est gratuite et sans inscription. Pour le plan Conforme (19 €/mois), laisse ton e-mail : on te confirme et on te guide pour tes premiers enregistrements.</p>
@@ -333,6 +358,22 @@ function exportMd(){
   a.href = URL.createObjectURL(blob);
   a.download = "packledger-dossier-conformite.md";
   document.body.appendChild(a); a.click(); a.remove();
+}
+
+function sendReview(ev){
+  var sc = document.getElementById("rscore").value;
+  var em = document.getElementById("remail").value;
+  var tx = document.getElementById("rtext").value;
+  if (!em || !tx) return false;
+  var sujet = encodeURIComponent("PackLedger — Avis client (" + sc + "/5)");
+  var corps = encodeURIComponent(
+    "Avis PackLedger\n\nNote : " + sc + "/5\nClient : " + em +
+    "\n\n" + tx + "\n\n(avis vérifié — l'expéditeur doit être un inscrit au plan Conforme)");
+  window.location.href = "mailto:nypsus.business@gmail.com?subject=" + sujet + "&body=" + corps;
+  document.getElementById("revok").innerHTML =
+    "✓ Votre client mail s'ouvre — envoyez le message pré-rempli. On vérifie et on publie.";
+  ev.preventDefault();
+  return false;
 }
 
 function signup(ev){
