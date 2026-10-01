@@ -3,104 +3,208 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PackLedger — PPWR EPR : tes pays d'enregistrement depuis tes commandes</title>
-<meta name="description" content="Convertis tes données de commandes en registrations PPWR/EPR par pays : volumes par matériau, registres officiels, checklist de conformité et dossier de preuve téléchargeable.">
+<title>PackLedger — Conformité emballages UE : sache en 2 min où t'enregistrer</title>
+<meta name="description" content="Depuis le 12 août 2026, vendre dans l'UE oblige à enregistrer tes emballages pays par pays. PackLedger calcule tes obligations à partir de tes commandes et te sort le dossier complet.">
 <style>
   :root{--bg:#0e1117;--card:#161b22;--line:#30363d;--fg:#e6edf3;--mut:#8b949e;--acc:#2f81f7;--ok:#3fb950;--warn:#d29922;--bad:#f85149}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg);padding:24px 16px 60px}
-  .wrap{max-width:960px;margin:0 auto}
-  h1{font-size:1.7rem;margin-bottom:6px}
-  h2{font-size:1.15rem;margin:28px 0 10px;color:var(--acc)}
-  .sub{color:var(--mut);margin-bottom:20px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px}
+  body{font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg);padding:0 0 60px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px;max-width:1000px;margin:0 auto}
+  .logo{font-weight:800;font-size:1.05rem}
+  nav a{color:var(--mut);text-decoration:none;margin-left:18px;font-size:.9rem}
+  .hero{padding:56px 16px 40px;text-align:center;background:radial-gradient(ellipse at top,#16222e 0%,transparent 60%)}
+  .hero h1{font-size:2.1rem;line-height:1.25;max-width:820px;margin:0 auto 14px}
+  .hero .accent{color:var(--acc)}
+  .hero p{color:var(--mut);max-width:680px;margin:0 auto;font-size:1.05rem}
+  .cta{margin-top:26px}
+  .cta a{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;font-weight:700;border-radius:10px;padding:14px 26px;font-size:1.05rem}
+  .cta .sec{margin-left:10px;background:transparent;border:1px solid var(--line);color:var(--fg)}
+  .tag{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:20px;padding:3px 12px;margin:0 4px 6px 0;color:var(--mut)}
+  h2{font-size:1.5rem;margin:52px 0 8px;text-align:center}
+  .sub{color:var(--mut);text-align:center;margin-bottom:26px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:8px}
+  .card p{color:var(--mut);font-size:.92rem}
+  .num{color:var(--acc);font-weight:800;font-size:1.2rem;margin-right:8px}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:24px}
   label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}
-  textarea,select,input{width:100%;background:#0d1117;border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:10px;font-size:.95rem}
-  textarea{min-height:140px;font-family:ui-monospace,Consolas,monospace;font-size:.85rem}
+  textarea{width:100%;background:#0d1117;border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:10px;font-size:.85rem;min-height:130px;font-family:ui-monospace,Consolas,monospace}
   button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:12px 18px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:12px}
   button.sec{background:transparent;border:1px solid var(--line);color:var(--fg)}
-  button:hover{filter:brightness(1.1)}
   .hint{color:var(--mut);font-size:.82rem;margin-top:4px}
-  table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:10px}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px}
   th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--mut);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
-  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
-  .tag{display:inline-block;font-size:.72rem;border:1px solid var(--line);border-radius:20px;padding:2px 10px;margin:2px 4px 2px 0;color:var(--mut)}
-  .kv{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:8px 0;font-size:.95rem}
-  .kv b{text-align:right}
+  th{color:var(--mut);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}
+  .warn{color:var(--warn)} .bad{color:var(--bad)}
   #results{display:none}
   pre{white-space:pre-wrap;background:#0d1117;border:1px solid var(--line);border-radius:8px;padding:14px;font-size:.8rem;max-height:320px;overflow:auto;margin-top:10px}
-  .foot{color:var(--mut);font-size:.78rem;margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+  .price{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:10px}
+  .plan{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;text-align:center;position:relative}
+  .plan.hot{border-color:var(--acc)}
+  .plan .name{font-weight:800;font-size:1.05rem}
+  .plan .amount{font-size:2rem;font-weight:800;margin:10px 0 2px}
+  .plan .per{color:var(--mut);font-size:.85rem;margin-bottom:12px}
+  .plan ul{list-style:none;text-align:left;font-size:.9rem;color:var(--mut);margin:12px 0 16px}
+  .plan li{padding:4px 0;border-bottom:1px dashed var(--line)}
+  .plan li b{color:var(--fg)}
+  .plan a{display:block;background:var(--acc);color:#fff;text-decoration:none;font-weight:700;border-radius:8px;padding:12px;font-size:.95rem}
+  .plan.gray a{background:transparent;border:1px solid var(--line);color:var(--fg)}
+  .faq{max-width:720px;margin:0 auto}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:10px}
+  .q b{display:block;margin-bottom:4px}
+  .q p{color:var(--mut);font-size:.92rem}
+  .signup{background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:26px;text-align:center;margin-top:40px}
+  .signup h3{margin-bottom:6px}
+  .signup p{color:var(--mut);font-size:.95rem;margin-bottom:16px}
+  .signup input{width:min(420px,90%);background:#0d1117;border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:12px;font-size:1rem;margin-right:8px}
+  .foot{color:var(--mut);font-size:.8rem;margin-top:44px;border-top:1px solid var(--line);padding-top:16px}
   a{color:var(--acc)}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>📦 PackLedger</h1>
-  <p class="sub">PPWR (Règlement UE 2025/40, applicable depuis le 12/08/2026) : les vendeurs e-commerce doivent s'enregistrer <b>pays par pays</b> (Art. 44-45), et les marketplaces vérifient. Cet outil te dit <b>où t'enregistrer</b> à partir de tes données de commandes — sans envoyer tes données nulle part (tout est calculé dans ton navigateur).</p>
+<nav>
+  <span class="logo">📦 PackLedger</span>
+  <span><a href="#demo">Démo gratuite</a><a href="#tarifs">Tarifs</a><a href="#faq">FAQ</a></span>
+</nav>
 
-  <div class="card">
-    <h2>1 · Tes commandes</h2>
-    <label for="orders">Colle ton export (une ligne par commande) — <span class="hint">colonnes : pays ; poids emballage (g) ; matériau</span></label>
-    <textarea id="orders" placeholder="ES,120,corrugated&#10;FR,85,plastic_film&#10;DE,210,corrugated&#10;ES,95,plastic_film&#10;IT,180,corrugated&#10;FR,120,corrugated">ES,120,corrugated
+<div class="hero">
+  <span class="tag">Nouveau depuis le 12 août 2026</span><span class="tag">Règlement UE 2025/40 · PPWR</span><span class="tag">Pour vendeurs e-commerce</span>
+  <h1>Tu vends en ligne dans l'UE ?<br>Depuis août 2026, tu dois enregistrer tes emballages <span class="accent">pays par pays</span>.</h1>
+  <p>Si tu ne le fais pas : tes annonces bloquées sur les marketplaces (Amazon, eBay, Temu…) et des amendes. PackLedger calcule <b>en 2 minutes</b>, à partir de tes propres données de commandes, tous les pays où tu dois t'enregistrer, les registres officiels à contacter et les volumes à déclarer.</p>
+  <div class="cta">
+    <a href="#demo">Calculer mes obligations — gratuit</a>
+    <a class="sec" href="#tarifs">Voir les tarifs</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <h2>En 3 étapes</h2>
+  <p class="sub">Pas de formulaire interminable : tes données suffisent.</p>
+  <div class="grid3">
+    <div class="card"><h3><span class="num">1</span>Colle tes commandes</h3><p>Ton export de ventes (pays, poids d'emballage, matériau) — exactement ce que tu as déjà dans ton compte Amazon, Shopify ou ton ERP.</p></div>
+    <div class="card"><h3><span class="num">2</span>Suis le résultat</h3><p>PackLedger te sort la liste des pays où tu dois t'enregistrer, le registre officiel de chacun (Allemagne LUCID, France SYDEREP, Espagne MITECO…) et les volumes par matériau.</p></div>
+    <div class="card"><h3><span class="num">3</span>Déclare en règle</h3><p>Tu obtiens la checklist de conformité et un dossier téléchargeable à conserver. Tes numéros d'enregistrement à transmettre aux marketplaces, c'est tout ce qui te manque.</p></div>
+  </div>
+
+  <h2 id="demo">Essaie maintenant — gratuit</h2>
+  <p class="sub">Une ligne par commande : <b>pays, poids d'emballage en grammes, matériau</b>. Tout est calculé dans ton navigateur, aucune donnée n'est envoyée.</p>
+  <div class="demo">
+    <label for="orders">Colle ton export :</label>
+    <textarea id="orders">ES,120,corrugated
 FR,85,plastic_film
 DE,210,corrugated
 ES,95,plastic_film
 IT,180,corrugated
 FR,120,corrugated</textarea>
-    <p class="hint">Matériaux acceptés : corrugated (carton ondulé), paper, plastic_film, plastic_rigid, glass, wood, metal. Le pays est le pays de livraison (là où les marchandises sont mises à disposition — Art. 3(1)(15)).</p>
+    <p class="hint">Matériaux : corrugated (carton), paper (papier), plastic_film (film plastique), plastic_rigid, glass (verre), wood (bois), metal (métal).</p>
     <button onclick="run()">Calculer mes obligations</button>
+    <div id="results">
+      <div class="demo" style="margin-top:16px">
+        <h3>Où t'enregistrer (Art. 44)</h3>
+        <p class="hint">Un enregistrement par pays où tu mets des emballages sur le marché. Vendeur non établi dans le pays = représentant autorisé (Art. 45(3)).</p>
+        <table>
+          <thead><tr><th>Pays</th><th>Poids</th><th>Obligation</th><th>Registre officiel</th><th>Format n°</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="demo">
+        <h3>Volumes à déclarer par matériau</h3>
+        <table>
+          <thead><tr><th>Matériau</th><th>Poids</th><th>% du total</th></tr></thead>
+          <tbody id="matrows"></tbody>
+        </table>
+      </div>
+      <div class="demo">
+        <h3>Checklist de conformité</h3>
+        <ul id="checklist" style="margin-left:18px"></ul>
+      </div>
+      <div class="demo">
+        <h3>Dossier de preuve</h3>
+        <p class="hint">Résumé téléchargeable à conserver avec ta déclaration de conformité.</p>
+        <button onclick="exportMd()">⬇️ Télécharger le dossier (.md)</button>
+        <pre id="mdout" style="display:none"></pre>
+      </div>
+    </div>
   </div>
 
-  <div id="results">
-    <div class="card">
-      <h2>2 · Où t'enregistrer (Art. 44)</h2>
-      <p class="sub">Un enregistrement par pays où tu mets des emballages sur le marché pour la première fois. Vendeur non établi dans le pays = représentant autorisé (Art. 45(3)).</p>
-      <table>
-        <thead><tr><th>Pays</th><th>Poids total (kg)</th><th>Obligation</th><th>Registre officiel</th><th>Format n°</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
+  <h2 id="tarifs">Tarifs</h2>
+  <p class="sub">Les concurrents facturent 360 à 1 485 € par pays et par an (services gérés). PackLedger automatise : tu paies un prix unique, tous pays inclus.</p>
+  <div class="price">
+    <div class="plan gray">
+      <div class="name">Découverte</div>
+      <div class="amount">0 €</div>
+      <div class="per">gratuit, sans inscription</div>
+      <ul>
+        <li>Calculateur de pays d'enregistrement</li>
+        <li>Volumes par matériau</li>
+        <li>Checklist de conformité</li>
+      </ul>
+      <a href="#demo">Utiliser la démo</a>
     </div>
+    <div class="plan hot">
+      <div class="name">Conforme</div>
+      <div class="amount">19 €<span style="font-size:1rem;color:var(--mut)">/mois</span></div>
+      <div class="per">ou 190 €/an (2 mois offerts)</div>
+      <ul>
+        <li>Tout Découverte, plus :</li>
+        <li><b>Dossier complet téléchargeable</b> (tous pays)</li>
+        <li>Mises à jour réglementaires par pays</li>
+        <li>Rappel des échéances de déclaration</li>
+        <li>Registres et liens officiels tenus à jour</li>
+      </ul>
+      <a href="#inscription">S'abonner — 19 €/mois</a>
+    </div>
+    <div class="plan gray">
+      <div class="name">Boutique / Agence</div>
+      <div class="amount">Sur devis</div>
+      <div class="per">multi-boutiques, intégration API</div>
+      <ul>
+        <li>Plusieurs magasins / comptes</li>
+        <li>Export automatisé des données</li>
+        <li>Accompagnement par pays</li>
+      </ul>
+      <a href="#inscription">Parlons-en</a>
+    </div>
+  </div>
 
-    <div class="card">
-      <h2>3 · Volumes par matériau (déclaration)</h2>
-      <table>
-        <thead><tr><th>Matériau</th><th>Poids (kg)</th><th>% du total</th></tr></thead>
-        <tbody id="matrows"></tbody>
-      </table>
-    </div>
+  <h2 id="faq">Questions fréquentes</h2>
+  <div class="faq">
+    <div class="q"><b>Pourquoi je dois m'enregistrer ? C'est nouveau ?</b><p>Oui. Le Règlement (UE) 2025/40 (PPWR) s'applique depuis le 12 août 2026 : tout opérateur qui met des emballages sur le marché d'un pays de l'UE doit s'enregistrer dans ce pays (Art. 44). Un « emballage », c'est aussi le carton et le film plastique de tes envois.</p></div>
+    <div class="q"><b>Ça s'adresse à qui, exactement ?</b><p>Aux vendeurs en ligne qui expédient dans l'UE — en Europe ou à l'étranger (Chine, UK, US, Turquie…). Les marketplaces demandent tes numéros d'enregistrement par pays et bloquent les annonces sinon.</p></div>
+    <div class="q"><b>Est-ce que vous faites l'enregistrement à ma place ?</b><p>Non, et c'est assumé : chaque pays a son registre avec des frais nationaux. PackLedger te dit <b>où, quoi et quand</b>, te sort le dossier, et te tient à jour — tu fais les dépôts toi-même, comme avec un bon comptable. C'est ce qui nous permet de facturer 19 €/mois au lieu de 360 €+/pays.</p></div>
+    <div class="q"><b>Mes données sont-elles envoyées quelque part ?</b><p>Non. La démo calcule tout dans ton navigateur. Quand tu passes au plan payant, seules tes adresses e-mail et tes préférences de pays sont conservées pour t'envoyer les rappels.</p></div>
+  </div>
 
-    <div class="card">
-      <h2>4 · Checklist de conformité</h2>
-      <ul id="checklist" style="margin-left:18px"></ul>
-    </div>
-
-    <div class="card">
-      <h2>5 · Dossier de preuve</h2>
-      <p class="sub">Résumé téléchargeable à conserver avec ta déclaration de conformité (cf. Annexure VII / docs techniques Art. 16).</p>
-      <button onclick="exportMd()">⬇️ Télécharger le dossier (.md)</button>
-      <pre id="mdout" style="display:none"></pre>
-    </div>
+  <div class="signup" id="inscription">
+    <h3>Commence maintenant</h3>
+    <p>La démo est gratuite et sans inscription. Pour le plan Conforme (19 €/mois), laisse ton e-mail : on te confirme et on te guide pour tes premiers enregistrements.</p>
+    <form id="signform" onsubmit="return signup(event)">
+      <input type="email" id="email" placeholder="ton@email.com" required>
+      <button type="submit">Demander l'accès Conforme</button>
+    </form>
+    <p class="hint" id="signok" style="margin-top:10px"></p>
   </div>
 
   <div class="foot">
-    <p><b>Honnêteté des données</b> : registres officiels vérifiés 2026-09-30 (Règlement (UE) 2025/40, Art. 44-45 ; sources : ppwratlas.com, epr.eldris.ai, amzbase.com). Les frais EPR restent <b>nationaux</b> : aucune fourchette ici — contacte le registre de chaque pays. Les registres nationaux montent en charge jusqu'en 2027 : l'obligation existe depuis le 12/08/2026, le format papier évolue. Cet outil aide à la planification, il ne remplace pas un conseil juridique.</p>
-    <p>PackLedger — produit #1 de la civilisation Merxan (Hyperion, extension 14). Aucune donnée n'est transmise à un serveur.</p>
+    <p><b>Honnêteté des données</b> : registres officiels vérifiés au 30/09/2026 (Règlement (UE) 2025/40, Art. 44-45 ; sources : ppwratlas.com, epr.eldris.ai, amzbase.com). Les frais EPR restent nationaux — aucune fourchette ici, contacte le registre de chaque pays. Les registres nationaux montent en charge jusqu'en 2027 : l'obligation existe depuis le 12/08/2026. Cet outil aide à la planification, il ne remplace pas un conseil juridique.</p>
+    <p>PackLedger — produit #1 de la civilisation Merxan (Hyperion, extension 14).</p>
   </div>
 </div>
 
 <script>
 // Registres officiels par pays — issus de la recherche PPWR (2026-09-30)
 var REG = {
-  "DE": {name:"Allemagne", reg:"LUCID — Zentrale Stelle Verpackungsregister (ZSVR)", fmt:"Registre LUCID + contrat de participation au système", url:"https://www.verpackungsregister.org/"},
+  "DE": {name:"Allemagne", reg:"LUCID — Zentrale Stelle Verpackungsregister (ZSVR)", fmt:"Registre LUCID + contrat de participation", url:"https://www.verpackungsregister.org/"},
   "FR": {name:"France", reg:"ADEME / SYDEREP — numéro unique (UIN) par filière", fmt:"UIN par filière EPR", url:"https://syderep.ademe.fr/"},
   "ES": {name:"Espagne", reg:"MITECO — Registro de Productores de Producto (sección envases)", fmt:"Numéro de producteur", url:"https://www.miteco.gob.es/"},
   "IT": {name:"Italie", reg:"CONAI — participation (art. 221, DLgs 152/2006)", fmt:"Accord CONAI", url:"https://www.conai.org/"},
   "PL": {name:"Pologne", reg:"BDO — registre des producteurs (marszałek województwa)", fmt:"Numéro BDO", url:"https://rejestr-bdo.mos.gov.pl/"},
-  "NL": {name:"Pays-Bas", reg:"Verpact (ex-Afvalfonds Verpakkingen) — déclaration si &gt; 50 000 kg/an", fmt:"Déclaration annuelle", url:"https://www.verpact.nl/"},
-  "SE": {name:"Suède", reg:"Naturvårdsverket + un organisme agréé (PRO)", fmt:"Enregistrement + PRO", url:"https://www.naturvardsverket.se/"},
+  "NL": {name:"Pays-Bas", reg:"Verpact — déclaration si &gt; 50 000 kg/an", fmt:"Déclaration annuelle", url:"https://www.verpact.nl/"},
+  "SE": {name:"Suède", reg:"Naturvårdsverket + organisme agréé (PRO)", fmt:"Enregistrement + PRO", url:"https://www.naturvardsverket.se/"},
   "BE": {name:"Belgique", reg:"Fost Plus / Valipac (EPRiBEL)", fmt:"Déclaration d'emballage", url:"https://www.fostplus.be/"},
-  "IE": {name:"Irlande", reg:"Repak — producteurs majeurs (par défaut : tous)", fmt:"Adhésion organisme agréé", url:"https://www.repak.ie/"},
+  "IE": {name:"Irlande", reg:"Repak — producteurs majeurs", fmt:"Adhésion organisme agréé", url:"https://www.repak.ie/"},
   "AT": {name:"Autriche", reg:"Registre national packaging en cours (2027) — vérifier", fmt:"À confirmer", url:""},
   "PT": {name:"Portugal", reg:"SPV — registre national packaging", fmt:"Numéro SPV", url:"https://www.spv.pt/"},
   "RO": {name:"Roumanie", reg:"Registre national packaging (OIR)", fmt:"À confirmer", url:""},
@@ -121,7 +225,7 @@ function normMat(m){
   if (m.indexOf("paper")>=0 || m.indexOf("papier")>=0) return "paper";
   if (m.indexOf("glass")>=0 || m.indexOf("verre")>=0) return "glass";
   if (m.indexOf("wood")>=0 || m.indexOf("bois")>=0) return "wood";
-  if (m.indexOf("metal")>=0 || m.indexOf("metal")>=0) return "metal";
+  if (m.indexOf("metal")>=0) return "metal";
   return MAT_FALLBACK;
 }
 
@@ -147,12 +251,10 @@ function run(){
   if (!Object.keys(byCountry).length){ alert("Aucune commande valide."); return; }
 
   document.getElementById("results").style.display = "block";
-
-  // 2 · tableau par pays
   var rows = "";
   var countries = Object.keys(byCountry).sort();
   for (var c of countries){
-    var r = REG[c] || {name:c, reg:"Registre national en cours — vérifier le point de contact national", fmt:"À confirmer", url:""};
+    var r = REG[c] || {name:c, reg:"Registre national en cours — vérifier le point de contact", fmt:"À confirmer", url:""};
     var href = r.url ? '<a href="'+r.url+'" target="_blank" rel="noopener">'+r.reg+'</a>' : r.reg;
     rows += "<tr><td><b>"+r.name+"</b></td><td>"+byCountry[c].kg.toFixed(1)+" kg</td>"+
             "<td><span class='warn'>Enregistrement requis</span></td>"+
@@ -161,7 +263,6 @@ function run(){
   if (errors.length) rows += "<tr><td colspan='5' class='bad'>⚠ " + errors.join(" · ") + "</td></tr>";
   document.getElementById("rows").innerHTML = rows;
 
-  // 3 · volumes par matériau
   var mrows = "";
   var mats = Object.keys(byMat).sort();
   for (var m of mats){
@@ -171,7 +272,6 @@ function run(){
   if (!mats.length) mrows = "<tr><td colspan='3'>Aucun matériau reconnu</td></tr>";
   document.getElementById("matrows").innerHTML = mrows;
 
-  // 4 · checklist
   var cl = [];
   cl.push("Déclaration de conformité (DoC) PPWR établie et conservée (obligation depuis le 12/08/2026).");
   cl.push("Marquage producteur apposé sur les emballages (identification Art. 11-12).");
@@ -180,12 +280,11 @@ function run(){
   for (var c of countries) if (!(REG[c])) hasNonEU = true;
   if (hasNonEU) cl.push("Représentant autorisé (Art. 45(3)) nommé pour chaque pays où tu n'as pas d'établissement.");
   cl.push("Données matériaux exactes obtenues de tes fournisseurs d'emballage (Art. 16).");
-  cl.push("Vérification : marketplaces (Amazon, eBay, Temu, Zalando…) exigent tes numéros d'enregistrement — les fournir avant le blocage.");
+  cl.push("Vérification : marketplaces (Amazon, eBay, Temu, Zalando…) exigent tes numéros — les fournir avant le blocage.");
   var ul = "";
   for (var x of cl) ul += "<li>"+x+"</li>";
   document.getElementById("checklist").innerHTML = ul;
 
-  // mémoriser pour l'export
   window._pl = {countries:countries, byCountry:byCountry, byMat:byMat, mats:mats, total:total, errors:errors};
 }
 
@@ -228,6 +327,13 @@ function exportMd(){
   a.href = URL.createObjectURL(blob);
   a.download = "packledger-dossier-conformite.md";
   document.body.appendChild(a); a.click(); a.remove();
+}
+
+function signup(ev){
+  var em = document.getElementById("email").value;
+  document.getElementById("signok").innerHTML = "✓ Merci ! On revient vers toi à « " + em + " » pour activer ton accès Conforme.";
+  ev.preventDefault();
+  return false;
 }
 </script>
 </body>
