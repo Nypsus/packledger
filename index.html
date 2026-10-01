@@ -33,6 +33,7 @@
   textarea{width:100%;background:#0d1117;border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:10px;font-size:.85rem;min-height:130px;font-family:ui-monospace,Consolas,monospace}
   button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:12px 18px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:12px}
   button.sec{background:transparent;border:1px solid var(--line);color:var(--fg)}
+  .pay-btn{display:inline-block;background:var(--acc);color:#fff;border:none;border-radius:8px;padding:14px 22px;font-size:1.05rem;font-weight:700;text-decoration:none;cursor:pointer}
   .hint{color:var(--mut);font-size:.82rem;margin-top:4px}
   table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:12px}
   th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -211,10 +212,14 @@ FR,120,corrugated</textarea>
 
   <div class="signup" id="inscription">
     <h3>Commence maintenant</h3>
-    <p>La démo est gratuite et sans inscription. Pour le plan Conforme (49 €/mois), laisse ton e-mail : on te confirme et on te guide pour tes premiers enregistrements.</p>
-    <form id="signform" onsubmit="return signup(event)">
-      <input type="email" id="email" placeholder="ton@email.com" required>
-      <button type="submit">Demander l'accès Conforme</button>
+    <p>La démo est gratuite. Passe au plan <b>Conforme — 49 €/mois</b> (paiement sécurisé par carte, abonnement gérable en un clic, résiliable à tout moment) :</p>
+    <p style="margin:18px 0">
+      <a class="pay-btn" href="https://buy.stripe.com/7sY14n5pk2sOeltdiK08g08" rel="noopener" target="_blank">💳 S'abonner à PackLedger Conforme — 49 €/mois</a>
+    </p>
+    <p class="hint">Problème de paiement ou question avant de t'abonner ? Écris-nous — on te répond sous 24 h ouvrées :</p>
+    <form id="signform" onsubmit="return signup(event)" style="margin-top:8px">
+      <input type="email" id="email" placeholder="ton@email.com (optionnel — pour être recontacté)" required>
+      <button type="submit">Je préfère être recontacté</button>
     </form>
     <p class="hint" id="signok" style="margin-top:10px"></p>
   </div>
