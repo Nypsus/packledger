@@ -34,9 +34,11 @@
   button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:12px 18px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:12px}
   button.sec{background:transparent;border:1px solid var(--line);color:var(--fg)}
   .hint{color:var(--mut);font-size:.82rem;margin-top:4px}
-  table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px}
-  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--mut);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}
+  table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:12px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+  .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:8px}
+  @media (max-width:720px){ th:nth-child(5),td:nth-child(5){display:none} }
   .warn{color:var(--warn)} .bad{color:var(--bad)}
   #results{display:none}
   pre{white-space:pre-wrap;background:#0d1117;border:1px solid var(--line);border-radius:8px;padding:14px;font-size:.8rem;max-height:320px;overflow:auto;margin-top:10px}
@@ -104,17 +106,21 @@ FR,120,corrugated</textarea>
       <div class="demo" style="margin-top:16px">
         <h3>Où t'enregistrer (Art. 44)</h3>
         <p class="hint">Un enregistrement par pays où tu mets des emballages sur le marché. Vendeur non établi dans le pays = représentant autorisé (Art. 45(3)).</p>
+        <div class="tbl">
         <table>
           <thead><tr><th>Pays</th><th>Poids</th><th>Obligation</th><th>Registre officiel</th><th>Format n°</th></tr></thead>
           <tbody id="rows"></tbody>
         </table>
+        </div>
       </div>
       <div class="demo">
         <h3>Volumes à déclarer par matériau</h3>
+        <div class="tbl">
         <table>
           <thead><tr><th>Matériau</th><th>Poids</th><th>% du total</th></tr></thead>
           <tbody id="matrows"></tbody>
         </table>
+        </div>
       </div>
       <div class="demo">
         <h3>Checklist de conformité</h3>
@@ -165,7 +171,7 @@ FR,120,corrugated</textarea>
         <li>Export automatisé des données</li>
         <li>Accompagnement par pays</li>
       </ul>
-      <a href="#inscription">Parlons-en</a>
+      <a href="mailto:nypsus.business@gmail.com?subject=PackLedger%20%E2%80%94%20Plan%20Boutique%2FAgence">Parlons-en</a>
     </div>
   </div>
 
@@ -331,7 +337,15 @@ function exportMd(){
 
 function signup(ev){
   var em = document.getElementById("email").value;
-  document.getElementById("signok").innerHTML = "✓ Merci ! On revient vers toi à « " + em + " » pour activer ton accès Conforme.";
+  if (!em) return false;
+  var sujet = encodeURIComponent("PackLedger — demande accès Conforme (19 €/mois)");
+  var corps = encodeURIComponent(
+    "Bonjour PackLedger,\n\nJe souhaite accéder au plan Conforme (19 €/mois).\n\nMon e-mail : " + em +
+    "\nPays où je vends :\nPlateformes (Amazon, eBay…) :\n\nMerci de me confirmer la suite.");
+  var href = "mailto:nypsus.business@gmail.com?subject=" + sujet + "&body=" + corps;
+  window.location.href = href;
+  document.getElementById("signok").innerHTML =
+    "✓ Votre client mail s'ouvre — il suffit d'envoyer le message pré-rempli. On vous répond sous 24 h ouvrées.";
   ev.preventDefault();
   return false;
 }
