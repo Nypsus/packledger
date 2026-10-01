@@ -151,16 +151,17 @@ FR,120,corrugated</textarea>
     </div>
     <div class="plan hot">
       <div class="name">Conforme</div>
-      <div class="amount">19 €<span style="font-size:1rem;color:var(--mut)">/mois</span></div>
-      <div class="per">ou 190 €/an (2 mois offerts)</div>
+      <div class="amount">49 €<span style="font-size:1rem;color:var(--mut)">/mois</span></div>
+      <div class="per">ou 490 €/an (1 mois offert)</div>
       <ul>
         <li>Tout Découverte, plus :</li>
         <li><b>Dossier complet téléchargeable</b> (tous pays)</li>
         <li>Mises à jour réglementaires par pays</li>
         <li>Rappel des échéances de déclaration</li>
         <li>Registres et liens officiels tenus à jour</li>
+        <li>Alertes de changement PPWR</li>
       </ul>
-      <a href="#inscription">S'abonner — 19 €/mois</a>
+      <a href="#inscription">S'abonner — 49 €/mois</a>
     </div>
     <div class="plan gray">
       <div class="name">Boutique / Agence</div>
@@ -179,7 +180,7 @@ FR,120,corrugated</textarea>
   <div class="faq">
     <div class="q"><b>Pourquoi je dois m'enregistrer ? C'est nouveau ?</b><p>Oui. Le Règlement (UE) 2025/40 (PPWR) s'applique depuis le 12 août 2026 : tout opérateur qui met des emballages sur le marché d'un pays de l'UE doit s'enregistrer dans ce pays (Art. 44). Un « emballage », c'est aussi le carton et le film plastique de tes envois.</p></div>
     <div class="q"><b>Ça s'adresse à qui, exactement ?</b><p>Aux vendeurs en ligne qui expédient dans l'UE — en Europe ou à l'étranger (Chine, UK, US, Turquie…). Les marketplaces demandent tes numéros d'enregistrement par pays et bloquent les annonces sinon.</p></div>
-    <div class="q"><b>Est-ce que vous faites l'enregistrement à ma place ?</b><p>Non, et c'est assumé : chaque pays a son registre avec des frais nationaux. PackLedger te dit <b>où, quoi et quand</b>, te sort le dossier, et te tient à jour — tu fais les dépôts toi-même, comme avec un bon comptable. C'est ce qui nous permet de facturer 19 €/mois au lieu de 360 €+/pays.</p></div>
+    <div class="q"><b>Est-ce que vous faites l'enregistrement à ma place ?</b><p>Non, et c'est assumé : chaque pays a son registre avec des frais nationaux. PackLedger te dit <b>où, quoi et quand</b>, te sort le dossier, et te tient à jour — tu fais les dépôts toi-même, comme avec un bon comptable. C'est ce qui nous permet de facturer 49 €/mois au lieu de 360 €+/pays.</p></div>
     <div class="q"><b>Mes données sont-elles envoyées quelque part ?</b><p>Non. La démo calcule tout dans ton navigateur. Quand tu passes au plan payant, seules tes adresses e-mail et tes préférences de pays sont conservées pour t'envoyer les rappels.</p></div>
   </div>
 
@@ -210,7 +211,7 @@ FR,120,corrugated</textarea>
 
   <div class="signup" id="inscription">
     <h3>Commence maintenant</h3>
-    <p>La démo est gratuite et sans inscription. Pour le plan Conforme (19 €/mois), laisse ton e-mail : on te confirme et on te guide pour tes premiers enregistrements.</p>
+    <p>La démo est gratuite et sans inscription. Pour le plan Conforme (49 €/mois), laisse ton e-mail : on te confirme et on te guide pour tes premiers enregistrements.</p>
     <form id="signform" onsubmit="return signup(event)">
       <input type="email" id="email" placeholder="ton@email.com" required>
       <button type="submit">Demander l'accès Conforme</button>
@@ -379,9 +380,9 @@ function sendReview(ev){
 function signup(ev){
   var em = document.getElementById("email").value;
   if (!em) return false;
-  var sujet = encodeURIComponent("PackLedger — demande accès Conforme (19 €/mois)");
+  var sujet = encodeURIComponent("PackLedger — demande accès Conforme (49 €/mois)");
   var corps = encodeURIComponent(
-    "Bonjour PackLedger,\n\nJe souhaite accéder au plan Conforme (19 €/mois).\n\nMon e-mail : " + em +
+    "Bonjour PackLedger,\n\nJe souhaite accéder au plan Conforme (49 €/mois).\n\nMon e-mail : " + em +
     "\nPays où je vends :\nPlateformes (Amazon, eBay…) :\n\nMerci de me confirmer la suite.");
   var href = "mailto:nypsus.business@gmail.com?subject=" + sujet + "&body=" + corps;
   window.location.href = href;
