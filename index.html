@@ -57,18 +57,73 @@ pre{white-space:pre-wrap;background:#0d1116;border:1px solid var(--line);border-
 .plan a{display:block;background:var(--acc);color:#0c1014;text-decoration:none;font-weight:700;border-radius:8px;padding:12px;font-size:.95rem}
 .plan.gray a{background:transparent;border:1px solid var(--line);color:var(--fg)}
 footer{margin-top:40px;text-align:center;font-size:.82rem;color:var(--mut)}
+/* ——— schémas SVG authorés ——— */
+.fig{border:1px solid var(--line);background:#0d1116;border-radius:14px;padding:8px;margin:18px 0 4px}
+.fig svg{width:100%;height:auto;display:block}
+.figcap{font-size:.78rem;color:var(--mut);text-align:center;margin:8px 0 2px}
+.herofig{margin:22px auto 6px;max-width:720px}
+.eyebrow{display:inline-block;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);font-weight:700;border:1px solid rgba(47,129,247,.35);border-radius:20px;padding:5px 14px;margin-bottom:10px}
+/* étapes avec icône (logique commune) */
+.step{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start;margin-top:16px}
+.step:first-child{margin-top:4px}
+.step .ico{width:56px;height:56px;border-radius:14px;background:#0d1116;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* ——— effets de scroll (progressifs : rien ne disparaît sans JS) ——— */
+.rv{will-change:opacity,transform}
+@media(max-width:640px){h1{font-size:1.45rem}.tbl th:nth-child(5),.tbl td:nth-child(5){display:none}.step{grid-template-columns:48px 1fr;gap:12px}.step .ico{width:48px;height:48px}}
 </style>
 </head>
 <body>
 <main>
 <header>
+  <div class="eyebrow">Conformité emballages UE · 12 août 2026</div>
   <div class="logo">📦 Pack<span>Ledger</span></div>
   <h1>Tu vends en ligne dans l'UE ? Depuis le 12 août 2026, tu dois enregistrer tes emballages <span class="acc">pays par pays</span>.</h1>
   <p class="sub">Si tu ne le fais pas : tes annonces bloquées sur les marketplaces (Amazon, eBay, Temu…) et des amendes. PackLedger calcule <b style="color:var(--fg)">en 2 minutes</b>, à partir de tes propres données de commandes, tous les pays où tu dois t'enregistrer, les registres officiels à contacter et les volumes à déclarer.</p>
-  <p style="margin-top:14px"><a class="cta" href="#demo">Calculer mes obligations — gratuit</a> <a class="cta sec" href="#tarifs">Voir les tarifs</a></p>
+
+  <div class="fig herofig rv">
+    <svg viewBox="0 0 720 250" role="img" aria-label="Schéma : tes commandes transitent vers 3 pays de l'UE, chacun exige un enregistrement emballage (LUCID, SYDEREP, MITECO), sans numéro la marketplace bloque">
+      <rect width="720" height="250" rx="14" fill="#0b1016"/>
+      <rect width="720" height="250" rx="14" fill="none" stroke="#26303a"/>
+      <g font-family="Segoe UI,sans-serif">
+        <!-- ta boutique -->
+        <rect x="24" y="95" width="130" height="70" rx="10" fill="#161c22" stroke="#3a4654"/>
+        <text x="89" y="128" text-anchor="middle" font-size="20">🛍️</text>
+        <text x="89" y="150" text-anchor="middle" font-size="11" fill="#9aa7b4">Tes ventes en ligne</text>
+        <!-- 3 pays -->
+        <rect x="300" y="28" width="150" height="62" rx="10" fill="#161c22" stroke="#3a4654"/>
+        <text x="375" y="55" text-anchor="middle" font-size="12" fill="#e8edf2">🇩🇪 Allemagne</text>
+        <text x="375" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="#e8edf2">LUCID</text>
+        <rect x="300" y="102" width="150" height="62" rx="10" fill="#161c22" stroke="#3a4654"/>
+        <text x="375" y="129" text-anchor="middle" font-size="12" fill="#e8edf2">🇫🇷 France</text>
+        <text x="375" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#e8edf2">SYDEREP</text>
+        <rect x="300" y="176" width="150" height="62" rx="10" fill="#161c22" stroke="#3a4654"/>
+        <text x="375" y="203" text-anchor="middle" font-size="12" fill="#e8edf2">🇪🇸 Espagne</text>
+        <text x="375" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#e8edf2">MITECO</text>
+        <!-- marketplace -->
+        <rect x="566" y="95" width="130" height="70" rx="10" fill="#161c22" stroke="#ff5d5d" stroke-width="1.6"/>
+        <text x="631" y="128" text-anchor="middle" font-size="20">🛒</text>
+        <text x="631" y="150" text-anchor="middle" font-size="11" fill="#ff5d5d">Marketplace</text>
+        <!-- flux -->
+        <path d="M154 130 L300 60" stroke="#3a4654" stroke-width="2"/>
+        <path d="M154 130 L300 133" stroke="#3a4654" stroke-width="2"/>
+        <path d="M154 130 L300 207" stroke="#3a4654" stroke-width="2"/>
+        <path d="M450 60 L566 118" stroke="#3a4654" stroke-width="2"/>
+        <path d="M450 133 L566 133" stroke="#3a4654" stroke-width="2"/>
+        <path d="M450 207 L566 148" stroke="#3a4654" stroke-width="2"/>
+        <path d="M631 95 V 82" stroke="#ff5d5d" stroke-width="2"/>
+        <text x="631" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="#ff5d5d">sans n° : blocage</text>
+        <!-- PackLedger -->
+        <rect x="216" y="6" width="116" height="26" rx="13" fill="#2f81f7"/>
+        <text x="274" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#0c1014">PackLedger →</text>
+      </g>
+    </svg>
+    <p class="figcap">Chaque pays a son registre. PackLedger te dit où, quoi et quand — avec les volumes à déclarer.</p>
+  </div>
+
+  <p class="rv" style="margin-top:14px"><a class="cta" href="#demo">Calculer mes obligations — gratuit</a> <a class="cta sec" href="#tarifs">Voir les tarifs</a></p>
 </header>
 
-<div class="card">
+<div class="card rv">
   <b>Exemple concret</b>
   <p>Tu vends en Allemagne, en France et en Espagne via Amazon. Tes envois utilisent un carton + un film plastique.</p>
   <p>Depuis le 12/08/2026, tu dois t'enregistrer dans <b style="color:var(--fg)">chacun de ces 3 pays</b> : <b style="color:var(--fg)">LUCID</b> en Allemagne, <b style="color:var(--fg)">SYDEREP</b> en France, <b style="color:var(--fg)">MITECO</b> en Espagne — et déclarer tes volumes par matériau. Sans numéro d'enregistrement : Amazon bloque tes annonces.</p>
@@ -76,24 +131,47 @@ footer{margin-top:40px;text-align:center;font-size:.82rem;color:var(--mut)}
 </div>
 
 <h2>Comment ça marche</h2>
-<div class="card">
+<div class="card rv">
   <div class="step">
-    <b>1 · Colle tes commandes</b>
-    <span>Ton export de ventes (pays, poids d'emballage, matériau) — exactement ce que tu as déjà dans ton compte Amazon, Shopify ou ton ERP.</span>
+    <div class="ico">
+      <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-label="étape 1 : coller les commandes">
+        <rect x="6" y="12" width="36" height="26" rx="4" fill="none" stroke="#2f81f7" stroke-width="2.4"/>
+        <path d="M6 20 L24 28 L42 20" fill="none" stroke="#2f81f7" stroke-width="2.4"/>
+      </svg>
+    </div>
+    <div><b>1 · Colle tes commandes</b>
+    <span>Ton export de ventes (pays, poids d'emballage, matériau) — exactement ce que tu as déjà dans ton compte Amazon, Shopify ou ton ERP.</span></div>
   </div>
-  <div class="step" style="margin-top:14px">
-    <b>2 · Suis le résultat</b>
-    <span>PackLedger te sort la liste des pays où tu dois t'enregistrer, le registre officiel de chacun (Allemagne LUCID, France SYDEREP, Espagne MITECO…) et les volumes par matériau.</span>
+  <div class="step">
+    <div class="ico">
+      <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-label="étape 2 : suivi du résultat">
+        <g fill="none" stroke="#3ddc97" stroke-width="2.4" stroke-linecap="round">
+          <path d="M8 16 L16 24 L26 12"/>
+          <path d="M8 32 L16 40 L26 28"/>
+          <path d="M32 16 H 42 M32 30 H 42"/>
+        </g>
+      </svg>
+    </div>
+    <div><b>2 · Suis le résultat</b>
+    <span>PackLedger te sort la liste des pays où tu dois t'enregistrer, le registre officiel de chacun (Allemagne LUCID, France SYDEREP, Espagne MITECO…) et les volumes par matériau.</span></div>
   </div>
-  <div class="step" style="margin-top:14px">
-    <b>3 · Déclare en règle</b>
-    <span>Tu obtiens la checklist de conformité et un dossier téléchargeable à conserver. Tes numéros d'enregistrement à transmettre aux marketplaces, c'est tout ce qui te manque.</span>
+  <div class="step">
+    <div class="ico">
+      <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-label="étape 3 : déclaration en règle">
+        <rect x="9" y="8" width="30" height="32" rx="4" fill="none" stroke="#2f81f7" stroke-width="2.4"/>
+        <path d="M16 18 H 32 M16 26 H 32" stroke="#9aa7b4" stroke-width="2.4"/>
+        <rect x="26" y="30" width="13" height="10" rx="2.5" fill="#2f81f7"/>
+        <path d="M29.5 36 L31.5 38 L35 33" stroke="#0c1014" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div><b>3 · Déclare en règle</b>
+    <span>Tu obtiens la checklist de conformité et un dossier téléchargeable à conserver. Tes numéros d'enregistrement à transmettre aux marketplaces, c'est tout ce qui te manque.</span></div>
   </div>
 </div>
 
 <h2 id="demo">Essaie maintenant — gratuit</h2>
 <p class="sub">Une ligne par commande : <b style="color:var(--fg)">pays, poids d'emballage en grammes, matériau</b>. Tout est calculé dans ton navigateur, aucune donnée n'est envoyée.</p>
-<div class="card">
+<div class="card rv">
   <label for="orders">Colle ton export :</label>
   <textarea id="orders">ES,120,corrugated
 FR,85,plastic_film
@@ -393,6 +471,47 @@ function signup(ev){
   ev.preventDefault();
   return false;
 }
+/* —————— effets de scroll (progressifs : rien ne disparaît sans JS) —————— */
+(function(){
+  var els = [].slice.call(document.querySelectorAll('.rv'));
+  if (!els.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  els.forEach(function(el){
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
+  });
+  var shown = 0, ticking = false;
+  function check(){
+    ticking = false;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    els.forEach(function(el){
+      if (el._shown) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh - 40 && r.bottom > 0){
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        el._shown = true; shown++;
+      }
+    });
+    if (shown >= els.length) window.removeEventListener('scroll', onScroll);
+  }
+  function onScroll(){
+    if (!ticking){ ticking = true; requestAnimationFrame(check); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  check();
+  // Garde-fou : jamais de contenu caché — tout visible après 4 s même sans events scroll.
+  setTimeout(function(){
+    els.forEach(function(el){
+      if (!el._shown){
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        el._shown = true;
+      }
+    });
+  }, 4000);
+})();
 </script>
 </body>
 </html>
